@@ -1,0 +1,4 @@
+{
+  "name": "@qa/dashboard", "version": "0.1.0", "private": true,
+  "scripts": { "dev": "vite", "build": "vite build", "lint": "eslint . --ext .js,.ts,.tsx --no-error-on-unmatched-pattern" }
+}

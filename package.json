@@ -1,0 +1,20 @@
+{
+  "name": "ai-qa-platform",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm --filter @qa/automation test",
+    "dev:platform": "pnpm --filter @qa/ai-platform dev",
+    "dev:dashboard": "pnpm --filter @qa/dashboard dev"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "eslint": "^9.16.0",
+    "globals": "^15.0.0",
+    "typescript-eslint": "^8.15.0"
+  }
+}
