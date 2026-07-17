@@ -19,14 +19,39 @@ Implemented Phase 1 capabilities:
 ## Clean Architecture Layout
 
 ```
-src/
-  agents/
-  services/
-  analyzers/
-  models/
-  interfaces/
-  mcp/
-  utils/
+logger/
+  Logger.ts
+  LoggerFactory.ts
+  LogLevel.ts
+  README.md
+  QUICK_REFERENCE.md
+
+analyzers/
+  project-analyzer.ts
+  project-scanner.ts
+  project-parser.ts
+  dependency-analyzer.ts
+  pattern-detector.ts
+  project-structure-builder.ts
+
+services/
+  filesystem-service.ts
+  project-analyzer-factory.ts
+  project-intelligence-service.ts
+
+models/
+  project-structure.ts
+  scan-models.ts
+
+interfaces/
+  filesystem-mcp-client.ts
+  project-analyzer.ts
+
+mcp/
+  filesystem-mcp-client.ts
+
+utils/
+  path-utils.ts
 ```
 
 ## Request Flow
@@ -48,6 +73,38 @@ src/
 - `PatternDetector`: extensible architecture pattern detection
 - `ProjectStructureBuilder`: converts analysis data into `ProjectStructure`
 - `ProjectAnalyzer`: use-case orchestrator for full analysis
+
+## Observability: Centralized Logging
+
+All services use a centralized logger that provides:
+
+- **No console.log()**: All logging routed through `Logger`
+- **Structured output**: Messages include module, timestamp, level, and context
+- **Performance tracking**: Built-in timers measure operation duration
+- **Debug modes**: `--debug` and `--trace` flags control verbosity
+- **Extensible transports**: Console (default), with hooks for File, JSON, OpenTelemetry, Azure Monitor
+
+### Using the Logger
+
+```typescript
+import { createLogger } from '@automation/logger/index.js';
+
+const logger = createLogger('MyAnalyzer');
+
+logger.info('Analysis started', { workspace: '/path/to/project' });
+logger.startTimer('analysis');
+const result = await analyze(project);
+logger.endTimer('analysis', { itemsProcessed: 42 });
+```
+
+### Running with Debug Output
+
+```bash
+pnpm dev --debug    # Enable DEBUG logs
+pnpm dev --trace    # Enable TRACE logs (very detailed)
+```
+
+See [logger/README.md](./logger/README.md) and [logger/QUICK_REFERENCE.md](./logger/QUICK_REFERENCE.md) for full documentation.
 
 ## MCP Integration
 
