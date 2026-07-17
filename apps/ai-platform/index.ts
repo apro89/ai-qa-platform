@@ -21,3 +21,52 @@ export type {
 export { toProjectStructureJson } from './models/project-structure.js';
 export type { IProjectAnalyzer } from './interfaces/project-analyzer.js';
 export type { DirectoryEntry, IFilesystemMcpClient } from './interfaces/filesystem-mcp-client.js';
+
+// Phase 3: AI Request Builder Module
+export { AIRequestBuilder, AIModuleFactory } from './ai/index.js';
+export type {
+  AIRequest,
+  SystemInstruction,
+  ContextMetadata,
+  ExpectedOutput,
+  ReusablePatterns,
+  SelectedContext,
+} from './ai/index.js';
+
+// Phase 4: Prompt Rendering Layer
+export {
+  PromptRenderer,
+  PromptTemplateEngine,
+  PromptValidator,
+  PromptFormatter,
+  PromptSanitizer,
+  PromptOptimizer,
+  PromptMetadataBuilder,
+  BasePromptTemplate,
+  GenerateAutomationTemplate,
+  GenerateTaskTemplate,
+  GenerateQuestionTemplate,
+  GenerateInteractionTemplate,
+  RefactorAutomationTemplate,
+  ExplainAutomationTemplate,
+} from './prompts/index.js';
+export type {
+  PromptMessages,
+  EnhancedPromptMessages,
+  PromptSection,
+  PromptSectionCollection,
+  PromptContext,
+  PromptMetadata,
+  TokenBreakdown,
+  OptimizationMetrics,
+  ValidationMetrics,
+  IPromptTemplate,
+} from './prompts/index.js';
+export {
+  PromptRenderingError,
+  TemplateError,
+  ValidationError,
+  TokenBudgetError,
+  FormattingError,
+  RenderingError,
+} from './prompts/index.js';

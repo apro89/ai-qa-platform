@@ -54,7 +54,7 @@ export class PatternDetector {
       totalRules: this.rules.length,
     });
 
-    let result;
+    let result: { detectedPattern: PatternType; supportedPatterns: PatternType[] };
     if (supportedPatterns.length > 1) {
       logger.info('Pattern detected', {
         pattern: 'hybrid',
@@ -62,8 +62,8 @@ export class PatternDetector {
         evidence: supportedPatterns,
       });
       result = {
-        detectedPattern: 'hybrid',
-        supportedPatterns: [...supportedPatterns, 'hybrid'],
+        detectedPattern: 'hybrid' as const,
+        supportedPatterns: [...supportedPatterns, 'hybrid' as const],
       };
     } else if (supportedPatterns.length === 1) {
       logger.info('Pattern detected', {
@@ -80,8 +80,8 @@ export class PatternDetector {
         reason: 'Project structure does not match known patterns',
       });
       result = {
-        detectedPattern: 'unknown',
-        supportedPatterns: ['unknown'],
+        detectedPattern: 'unknown' as const,
+        supportedPatterns: ['unknown' as const],
       };
     }
 
