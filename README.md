@@ -62,10 +62,10 @@ flowchart LR
   P -->|Generation PR via Git MCP| A[apps/automation]
   A -->|ExecutionCompleted event| P
   A -->|reports / artifacts| D
-  P --> ST[@qa/shared-types]
-  P --> SP[@qa/shared-prompts]
-  P --> SC[@qa/shared-config]
-  P --> SU[@qa/shared-utils]
+  P --> ST["@qa/shared-types"]
+  P --> SP["@qa/shared-prompts"]
+  P --> SC["@qa/shared-config"]
+  P --> SU["@qa/shared-utils"]
   A --> ST
   A --> SC
   D --> ST
@@ -107,16 +107,16 @@ sequenceDiagram
 
 ## AI agents and MCP servers
 
-| Agent | Primary MCP server(s) | Purpose and guardrail |
-|---|---|---|
-| Requirement Intelligence | `jira-mcp`, `confluence-mcp` | Reads approved requirements and source links; read-only. |
-| Test Case Generation | `jira-mcp`, `confluence-mcp`, `test-knowledge-mcp` | Derives traceable cases using a curated test-pattern catalog. |
-| Automation Generation | `repo-mcp`, `playwright-mcp`, `test-knowledge-mcp` | Reads framework conventions and DOM/selector evidence; outputs structured files only. |
-| Code Review | `repo-mcp`, `quality-gate-mcp` | Reviews PR diff, architecture rules and static-analysis results; no merge permission. |
-| Git | `azure-repos-mcp` | Creates branch/commit/PR only after policy validation; scoped repository token. |
-| CI/CD | `azure-devops-mcp` | Starts/observes approved pipelines and release gates; no production bypass. |
-| Failure Analysis | `azure-devops-mcp`, `playwright-artifacts-mcp`, `observability-mcp` | Correlates failures with traces, screenshots, logs, deployment and incidents. |
-| Self-Healing | `repo-mcp`, `playwright-mcp`, `azure-devops-mcp` | Proposes locator changes with DOM evidence; opens a PR, never silently edits main. |
+| Agent                    | Primary MCP server(s)                                               | Purpose and guardrail                                                                 |
+| ------------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Requirement Intelligence | `jira-mcp`, `confluence-mcp`                                        | Reads approved requirements and source links; read-only.                              |
+| Test Case Generation     | `jira-mcp`, `confluence-mcp`, `test-knowledge-mcp`                  | Derives traceable cases using a curated test-pattern catalog.                         |
+| Automation Generation    | `repo-mcp`, `playwright-mcp`, `test-knowledge-mcp`                  | Reads framework conventions and DOM/selector evidence; outputs structured files only. |
+| Code Review              | `repo-mcp`, `quality-gate-mcp`                                      | Reviews PR diff, architecture rules and static-analysis results; no merge permission. |
+| Git                      | `azure-repos-mcp`                                                   | Creates branch/commit/PR only after policy validation; scoped repository token.       |
+| CI/CD                    | `azure-devops-mcp`                                                  | Starts/observes approved pipelines and release gates; no production bypass.           |
+| Failure Analysis         | `azure-devops-mcp`, `playwright-artifacts-mcp`, `observability-mcp` | Correlates failures with traces, screenshots, logs, deployment and incidents.         |
+| Self-Healing             | `repo-mcp`, `playwright-mcp`, `azure-devops-mcp`                    | Proposes locator changes with DOM evidence; opens a PR, never silently edits main.    |
 
 MCP clients live under `apps/ai-platform/mcp/clients`; server adapters and tool allowlists live under `servers` and `tools`. Production MCP servers are independently deployed/authorized. `repo-mcp` is an internal read-only repository-context service; `test-knowledge-mcp`, `quality-gate-mcp`, and `playwright-artifacts-mcp` are platform services to implement alongside this repository.
 
