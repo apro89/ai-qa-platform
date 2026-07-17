@@ -37,7 +37,7 @@ export class PromptTemplateEngine {
       const available = Array.from(this.templates.keys()).join(', ');
       throw new TemplateError(`Template not found: ${templateType}. Available: ${available}`, {
         templateType,
-        available
+        available,
       });
     }
 

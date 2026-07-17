@@ -74,9 +74,7 @@ export class ContextBuilder {
         components: this.namingService.analyzeComponentsNaming(
           structure.components.map((c) => c.path),
         ),
-        files: this.namingService.analyzeFilesNaming(
-          scannedProject.files.map((f) => f.path),
-        ),
+        files: this.namingService.analyzeFilesNaming(scannedProject.files.map((f) => f.path)),
       };
 
       // Analyze coding style
@@ -166,7 +164,10 @@ export class ContextBuilder {
     }
   }
 
-  public serialize(context: ProjectContext, format: 'json' | 'compact' | 'markdown' = 'json'): string {
+  public serialize(
+    context: ProjectContext,
+    format: 'json' | 'compact' | 'markdown' = 'json',
+  ): string {
     logger.debug('Serializing context', { format });
 
     try {

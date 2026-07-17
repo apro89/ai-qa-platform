@@ -21,7 +21,7 @@ export class PromptOptimizer {
 
   optimizeToTokenBudget(
     sections: PromptSectionCollection,
-    maxTokens: number
+    maxTokens: number,
   ): { sections: PromptSectionCollection; result: OptimizationResult } {
     const originalTokens = this.calculateTotalTokens(sections);
 
@@ -35,8 +35,8 @@ export class PromptOptimizer {
           reduction: 0,
           reductionPercent: 0,
           sectionsRemoved: 0,
-          sectionsCompressed: 0
-        }
+          sectionsCompressed: 0,
+        },
       };
     }
 
@@ -64,21 +64,21 @@ export class PromptOptimizer {
         reduction,
         reductionPercent,
         sectionsRemoved,
-        sectionsCompressed: 0
-      }
+        sectionsCompressed: 0,
+      },
     };
   }
 
   private removeLowPrioritySections(
     sections: PromptSectionCollection,
     maxTokens: number,
-    currentTokens: number
+    currentTokens: number,
   ): number {
     const priorities: Array<'low' | 'normal' | 'high' | 'critical'> = ['low', 'normal', 'high'];
 
     for (const priority of priorities) {
       for (const category of Object.keys(sections) as Array<keyof PromptSectionCollection>) {
-        sections[category] = sections[category].filter(section => {
+        sections[category] = sections[category].filter((section) => {
           if (currentTokens <= maxTokens) {
             return true;
           }
@@ -104,7 +104,7 @@ export class PromptOptimizer {
   private compressHighTokenSections(
     sections: PromptSectionCollection,
     maxTokens: number,
-    currentTokens: number
+    currentTokens: number,
   ): { tokensAfter: number; sectionsCompressed: number } {
     let tokensAfter = currentTokens;
 
@@ -160,7 +160,7 @@ export class PromptOptimizer {
   private countRemovedSections(sections: PromptSectionCollection): number {
     return Object.values(sections)
       .flat()
-      .filter(s => !s.content || s.content.trim().length === 0).length;
+      .filter((s) => !s.content || s.content.trim().length === 0).length;
   }
 
   getSectionsByPriority(sections: PromptSectionCollection): PromptSection[] {
@@ -171,7 +171,7 @@ export class PromptOptimizer {
           critical: 0,
           high: 1,
           normal: 2,
-          low: 3
+          low: 3,
         };
         const aPriority = priorityOrder[a.priority as 'critical' | 'high' | 'normal' | 'low'];
         const bPriority = priorityOrder[b.priority as 'critical' | 'high' | 'normal' | 'low'];

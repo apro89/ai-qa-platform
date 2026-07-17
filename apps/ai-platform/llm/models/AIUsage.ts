@@ -1,6 +1,6 @@
 /**
  * AIUsage - Token usage metrics from LLM provider
- * 
+ *
  * Tracks tokens consumed by a request.
  * Provider-independent model.
  */

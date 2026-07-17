@@ -125,7 +125,10 @@ export class ContextValidator {
       paths.add(artifact.path);
     }
 
-    logger.trace('Duplicate check completed', { uniquePaths: paths.size, duplicates: errors.length });
+    logger.trace('Duplicate check completed', {
+      uniquePaths: paths.size,
+      duplicates: errors.length,
+    });
     return errors;
   }
 

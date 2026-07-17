@@ -20,6 +20,7 @@ Phase 3+: AI Agents
 ## Architecture
 
 ### Input
+
 - **ProjectStructure** from Phase 1 (ProjectAnalyzer)
 - **ScannedProject** raw file data
 
@@ -47,69 +48,71 @@ ProjectStructure + ScannedProject
 ```typescript
 interface ProjectContext {
   // Framework metadata
-  framework: "Playwright"
-  frameworkVersion: "1.40.0"
-  typescriptVersion: "5.3.0"
-  architecture: "screenplay" | "page-object-model" | "hybrid"
-  supportedArchitectures: string[]
+  framework: 'Playwright';
+  frameworkVersion: '1.40.0';
+  typescriptVersion: '5.3.0';
+  architecture: 'screenplay' | 'page-object-model' | 'hybrid';
+  supportedArchitectures: string[];
 
   // Project structure
-  folderStructure: {}
-  pages: ArtifactRef[]
-  tasks: ArtifactRef[]
-  interactions: ArtifactRef[]
-  questions: ArtifactRef[]
-  components: ArtifactRef[]
-  fixtures: ArtifactRef[]
-  utilities: ArtifactRef[]
+  folderStructure: {};
+  pages: ArtifactRef[];
+  tasks: ArtifactRef[];
+  interactions: ArtifactRef[];
+  questions: ArtifactRef[];
+  components: ArtifactRef[];
+  fixtures: ArtifactRef[];
+  utilities: ArtifactRef[];
 
   // Conventions and style
   namingConventions: {
-    pages: { pattern, examples, description }
-    tasks: { pattern, examples, description }
-    tests: { pattern, examples, description }
+    pages: { pattern; examples; description };
+    tasks: { pattern; examples; description };
+    tests: { pattern; examples; description };
     // ... more
-  }
+  };
 
   codingStyle: {
-    asyncAwait: true
-    assertionLibrary: "Playwright Expect"
-    locatorStyle: "getByRole"
-    importStyle: "absolute" | "relative" | "mixed"
-    moduleSyntax: "esm" | "cjs"
-    typeScriptUsage: true
-    decoratorsUsed: false
-  }
+    asyncAwait: true;
+    assertionLibrary: 'Playwright Expect';
+    locatorStyle: 'getByRole';
+    importStyle: 'absolute' | 'relative' | 'mixed';
+    moduleSyntax: 'esm' | 'cjs';
+    typeScriptUsage: true;
+    decoratorsUsed: false;
+  };
 
   // Reusable patterns
-  reusableObjects: ReusableObject[]
-  commonPatterns: string[]
+  reusableObjects: ReusableObject[];
+  commonPatterns: string[];
 
   // Dependencies and imports
-  importPatterns: ImportPattern[]
-  topDependencies: DependencyInfo[]
+  importPatterns: ImportPattern[];
+  topDependencies: DependencyInfo[];
 
   // Metadata
   metadata: {
-    builtAt: ISO8601
-    projectRoot: string
-    totalArtifacts: number
-    totalDependencies: number
-  }
+    builtAt: ISO8601;
+    projectRoot: string;
+    totalArtifacts: number;
+    totalDependencies: number;
+  };
 }
 ```
 
 ## Service Responsibilities
 
 ### NamingConventionService
+
 Analyzes file and class naming patterns.
 
 ```typescript
-analyzer.analyzePagesNaming(paths)
+analyzer.analyzePagesNaming(paths);
 // → { pattern: "PascalCase", examples: [...], description: "..." }
 ```
 
 Detects:
+
 - **Pages**: `LoginPage`, `DashboardPage`
 - **Tasks**: `LoginTask`, `CreateOrderTask`
 - **Tests**: `login.spec.ts`, `create-order.spec.ts`
@@ -119,14 +122,16 @@ Detects:
 - **Files**: `camelCase`, `kebab-case`, extensions
 
 ### CodingStyleAnalyzer
+
 Analyzes code patterns to determine conventions.
 
 ```typescript
-const style = analyzer.analyze(scannedProject)
+const style = analyzer.analyze(scannedProject);
 // → { asyncAwait: true, assertionLibrary: "Playwright Expect", ... }
 ```
 
 Detects:
+
 - TypeScript usage (`.ts` files present)
 - Async/await patterns
 - Assertion libraries (Playwright, Chai, Jest)
@@ -136,76 +141,85 @@ Detects:
 - Decorator usage (@decorators)
 
 ### ImportAnalyzer
+
 Maps how modules are imported across the project.
 
 ```typescript
-const patterns = analyzer.analyzeImportPatterns(scannedProject)
+const patterns = analyzer.analyzeImportPatterns(scannedProject);
 // → [{ source: "@qa/tasks", targets: [...], frequency: 24, percentage: 15.2 }, ...]
 ```
 
 Identifies:
+
 - Top imported modules
 - Internal vs external imports
 - Import frequency
 - Common import chains
 
 ### DependencyMapper
+
 Categorizes and interprets dependencies.
 
 ```typescript
-const deps = mapper.mapDependencies(structure.dependencies)
+const deps = mapper.mapDependencies(structure.dependencies);
 // → [{ name: "@playwright/test", version: "1.40.0", scope: "devDependencies", purpose: "..." }, ...]
 ```
 
 Categorizes by:
+
 - Framework dependencies (Playwright, test runners)
 - Tool dependencies (ESLint, Prettier, TypeScript)
 - QA dependencies (assertions, mocking)
 - Purpose and description
 
 ### ReusableCodeDetector
+
 Identifies reusable components and common patterns.
 
 ```typescript
-const reusable = detector.detectReusableObjects(structure)
+const reusable = detector.detectReusableObjects(structure);
 // → [{ type: 'page', name: 'LoginPage', path: '...', relatedObjects: [...] }, ...]
 
-const patterns = detector.detectCommonPatterns(structure)
+const patterns = detector.detectCommonPatterns(structure);
 // → ['Screenplay Pattern', 'Page Object Model', 'Data Builder Pattern', ...]
 ```
 
 Identifies:
+
 - Pages and their relationships
 - Tasks used by multiple tests
 - Reusable interactions
 - Common pattern usage (Screenplay, POM, fixtures, builders)
 
 ### ContextValidator
+
 Validates context consistency and completeness.
 
 ```typescript
-const result = validator.validate(context)
+const result = validator.validate(context);
 // → { valid: true, errors: [], warnings: [...] }
 ```
 
 Validates:
+
 - All required fields present
 - No duplicate artifacts
 - Reference integrity
 - Naming conventions coverage
 
 ### ContextSerializer
+
 Converts ProjectContext to different formats.
 
 ```typescript
 // Full JSON
-serializer.toJSON(context)
+serializer.toJSON(context);
 
 // Compact JSON
-serializer.toCompactJSON(context)
+serializer.toCompactJSON(context);
 
 // Human-readable Markdown
-serializer.toMarkdown(context)
+serializer.toMarkdown(context);
 ```
 
 ## Usage
@@ -333,6 +347,7 @@ class ContextDiff {
 ## Integration with Phase 1 & 3
 
 ### Phase 1 Integration
+
 ```
 ProjectAnalyzer → ProjectStructure
                        ↓
@@ -342,6 +357,7 @@ ContextBuilder ← (consumes)
 ```
 
 ### Phase 3 Integration (AI Agents)
+
 ```
 ProjectContext
      ↓
@@ -360,19 +376,19 @@ ProjectContext
 ✅ **Open/Closed**: Easy to add new analysis services  
 ✅ **Liskov Substitution**: All services follow same interface pattern  
 ✅ **Interface Segregation**: Services expose minimal contracts  
-✅ **Dependency Inversion**: ContextBuilder depends on abstractions  
+✅ **Dependency Inversion**: ContextBuilder depends on abstractions
 
 ## Constraints
 
 ❌ No OpenAI integration  
 ❌ No code generation  
 ❌ No file modifications  
-❌ No prompt building  
+❌ No prompt building
 
 ✅ Pure analysis and information extraction  
 ✅ Structured data output  
 ✅ Observable via logging  
-✅ Testable and extensible  
+✅ Testable and extensible
 
 ## References
 

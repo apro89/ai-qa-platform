@@ -36,12 +36,12 @@ export class PromptRenderer {
       const systemCollection = template.getSystemPromptSections(context);
       const userCollection = template.getUserPromptSections(context);
 
-      const systemPrompt = this.sanitizer.sanitize(this.formatSections(
-        Object.values(systemCollection).flat()
-      ));
-      const userPrompt = this.sanitizer.sanitize(this.formatSections(
-        Object.values(userCollection).flat()
-      ));
+      const systemPrompt = this.sanitizer.sanitize(
+        this.formatSections(Object.values(systemCollection).flat()),
+      );
+      const userPrompt = this.sanitizer.sanitize(
+        this.formatSections(Object.values(userCollection).flat()),
+      );
 
       const metadata = createPromptMetadata(aiRequest.templateType, aiRequest.requestId);
       metadata.framework = aiRequest.projectContext.framework || 'Unknown';
@@ -49,10 +49,13 @@ export class PromptRenderer {
       metadata.renderingTimeMs = Date.now() - startTime;
       metadata.tokens.systemPromptTokens = this.formatter.estimateTokens(systemPrompt);
       metadata.tokens.userPromptTokens = this.formatter.estimateTokens(userPrompt);
-      metadata.tokens.totalTokens = metadata.tokens.systemPromptTokens + metadata.tokens.userPromptTokens;
+      metadata.tokens.totalTokens =
+        metadata.tokens.systemPromptTokens + metadata.tokens.userPromptTokens;
 
       const promptMessages = createPromptMessages(systemPrompt, userPrompt, metadata);
-      this.logger.info(`Rendered prompt: ${metadata.tokens.totalTokens} tokens in ${metadata.renderingTimeMs}ms`);
+      this.logger.info(
+        `Rendered prompt: ${metadata.tokens.totalTokens} tokens in ${metadata.renderingTimeMs}ms`,
+      );
 
       return promptMessages;
     } catch (error) {
@@ -64,7 +67,7 @@ export class PromptRenderer {
 
   private formatSections(sections: PromptSection[]): string {
     return sections
-      .map(section => this.formatter.formatSection(section, 2).fullText)
+      .map((section) => this.formatter.formatSection(section, 2).fullText)
       .join('\n\n');
   }
 
