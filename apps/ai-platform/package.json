@@ -1,5 +1,17 @@
 {
-  "name": "@qa/ai-platform", "version": "0.1.0", "private": true,
-  "scripts": { "dev": "tsx watch api/server.ts", "build": "tsc", "lint": "eslint . --ext .js,.ts,.tsx --no-error-on-unmatched-pattern" },
-  "dependencies": { "openai": "^4.0.0", "@modelcontextprotocol/sdk": "^1.0.0" }
+  "name": "@qa/ai-platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch api/server.ts",
+    "build": "tsc",
+    "lint": "eslint . --ext .js,.ts,.tsx --no-error-on-unmatched-pattern"
+  },
+  "dependencies": {
+    "openai": "^4.0.0",
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
 }
