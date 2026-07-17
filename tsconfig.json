@@ -1,4 +1,9 @@
 {
   "extends": "./configs/typescript/base.json",
-  "compilerOptions": { "baseUrl": "." }
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@automation/*": ["apps/automation/*"]
+    }
+  }
 }

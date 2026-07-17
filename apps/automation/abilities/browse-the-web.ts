@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import type { Ability } from './ability.js';
+import type { Ability } from '@automation/abilities/ability.js';
 
 export class BrowseTheWeb implements Ability {
   readonly name = 'BrowseTheWeb';

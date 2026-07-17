@@ -1,4 +1,4 @@
-import type { Ability } from '../abilities/ability.js';
+import type { Ability } from '@automation/abilities/ability.js';
 
 export interface Performable {
   performAs(actor: Actor): Promise<void>;

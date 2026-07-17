@@ -17,6 +17,9 @@ importers:
       globals:
         specifier: ^15.0.0
         version: 15.15.0
+      prettier:
+        specifier: ^3.5.3
+        version: 3.9.5
       typescript-eslint:
         specifier: ^8.15.0
         version: 8.64.0(eslint@9.39.5)(typescript@5.9.3)
@@ -31,6 +34,10 @@ importers:
         version: 4.104.0(zod@3.25.76)
 
   apps/automation:
+    dependencies:
+      dotenv:
+        specifier: ^16.6.1
+        version: 16.6.1
     devDependencies:
       '@playwright/test':
         specifier: ^1.50.0
@@ -346,6 +353,10 @@ packages:
   depd@2.0.0:
     resolution: {integrity: sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==}
     engines: {node: '>= 0.8'}
+
+  dotenv@16.6.1:
+    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -790,6 +801,11 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+
+  prettier@3.9.5:
+    resolution: {integrity: sha512-/FVl766LpUfB5vXgCYOYa0MeV/441Ia99AeICQIQFTY/Nw0roZwULcXpku5i1/m5kt/baz+s4Zogspd839HSMg==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
@@ -1295,6 +1311,8 @@ snapshots:
 
   depd@2.0.0: {}
 
+  dotenv@16.6.1: {}
+
   dunder-proto@1.0.1:
     dependencies:
       call-bind-apply-helpers: 1.0.2
@@ -1728,6 +1746,8 @@ snapshots:
       fsevents: 2.3.2
 
   prelude-ls@1.2.1: {}
+
+  prettier@3.9.5: {}
 
   proxy-addr@2.0.7:
     dependencies:

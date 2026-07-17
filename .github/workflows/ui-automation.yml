@@ -1,0 +1,57 @@
+name: UI Automation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke tests (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium, firefox, webkit]
+    env:
+      PLAYWRIGHT_BASE_URL: ${{ vars.PLAYWRIGHT_BASE_URL || 'https://www.saucedemo.com' }}
+      PLAYWRIGHT_WORKERS: '1'
+      PLAYWRIGHT_RETRIES: '2'
+      TEST_STANDARD_USERNAME: ${{ vars.TEST_STANDARD_USERNAME || 'standard_user' }}
+      TEST_LOCKED_USERNAME: ${{ vars.TEST_LOCKED_USERNAME || 'locked_out_user' }}
+      TEST_PERFORMANCE_GLITCH_USERNAME: ${{ vars.TEST_PERFORMANCE_GLITCH_USERNAME || 'performance_glitch_user' }}
+      TEST_PASSWORD: ${{ secrets.TEST_PASSWORD || 'secret_sauce' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @qa/automation exec playwright install --with-deps ${{ matrix.project }}
+      - run: pnpm lint
+      - run: pnpm --filter @qa/automation build
+      - run: pnpm --filter @qa/automation exec playwright test --grep @smoke --project=${{ matrix.project }}
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.project }}
+          path: apps/automation/playwright-report/
+          if-no-files-found: ignore
+      - name: Upload JUnit, screenshots, videos, and traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts-${{ matrix.project }}
+          path: |
+            apps/automation/results/
+            apps/automation/test-results/
+          if-no-files-found: ignore

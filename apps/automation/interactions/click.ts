@@ -1,6 +1,6 @@
-import { BrowseTheWeb } from '../abilities/browse-the-web.js';
-import type { Actor, Performable } from '../actors/actor.js';
-import type { Target } from '../targets/target.js';
+import { BrowseTheWeb } from '@automation/abilities/browse-the-web.js';
+import type { Actor, Performable } from '@automation/actors/actor.js';
+import type { Target } from '@automation/pages/target.js';
 
 export class Click implements Performable {
   private constructor(private readonly target: Target) {}

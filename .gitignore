@@ -3,6 +3,10 @@ dist/
 coverage/
 playwright-report/
 test-results/
+apps/automation/playwright-report/
+apps/automation/test-results/
+apps/automation/results/
 .env
 .env.*
 !.env.example
+.pnpm-store
