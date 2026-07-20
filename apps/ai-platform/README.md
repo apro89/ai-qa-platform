@@ -285,6 +285,66 @@ Phase 2:
 - Add stronger static analysis in `DependencyAnalyzer`
 - Add caching and incremental scans in `FilesystemService`
 
+## Phase 5: LLM Provider Layer (✅ Implemented)
+
+The Phase 5 LLM Provider Layer implements a provider-agnostic interface for communicating with Large Language Models.
+
+**Supported Providers:**
+- ✅ **OpenAI** - Cloud-based (requires API key)
+- ✅ **Ollama** - Local, free, no API key required
+- 🔮 Claude, Gemini, Azure OpenAI (future)
+
+**Features:**
+- Provider abstraction with pluggable architecture
+- Automatic retry with exponential backoff
+- Rate limiting (requests & tokens per minute)
+- Comprehensive error handling
+- Token usage tracking
+- Environment-based configuration
+
+**Quick Start:**
+
+See [RUNNING_WITH_LLM_PROVIDERS.md](./RUNNING_WITH_LLM_PROVIDERS.md) for complete setup instructions.
+
+**Using Ollama (Free & Local):**
+```bash
+# Terminal 1: Start Ollama
+ollama serve
+
+# Terminal 2: Pull a model and run demo
+ollama pull mistral
+export LLM_PROVIDER=ollama
+npm run phase5:demo
+```
+
+**Using OpenAI (Requires API Key):**
+```bash
+export OPENAI_API_KEY=sk-your-key
+npm run phase5:demo
+```
+
+**Files:**
+- `llm/config/LLMConfig.ts` - Configuration management
+- `llm/interfaces/ILLMProvider.ts` - Provider interface
+- `llm/providers/OpenAIProvider.ts` - OpenAI implementation
+- `llm/providers/OllamaProvider.ts` - Ollama implementation (local, free)
+- `llm/services/LLMService.ts` - Main orchestration service
+- `llm/services/ProviderFactory.ts` - Provider registry
+- `llm/services/RetryPolicy.ts` - Retry logic
+- `llm/services/RateLimiter.ts` - Rate limiting
+
+**Documentation:**
+- [RUNNING_WITH_LLM_PROVIDERS.md](./RUNNING_WITH_LLM_PROVIDERS.md) - How to run with different providers
+- [docs/ai-platform/PHASE_5_LLM_PROVIDER_LAYER.md](../../docs/ai-platform/PHASE_5_LLM_PROVIDER_LAYER.md) - Architecture details
+- [llm/README.md](./llm/README.md) - API reference
+
+## Future Phases
+
+- **Phase 6**: Test Generation using LLM Provider
+- Extend `ProjectParser` with additional layer patterns
+- Add stronger static analysis in `DependencyAnalyzer`
+- Add caching and incremental scans in `FilesystemService`
+
 ## Example Output Shape
 
 ```json

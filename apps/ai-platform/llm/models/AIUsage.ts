@@ -28,6 +28,15 @@ export class TokenUsage implements AIUsage {
   }
 
   /**
+   * Create TokenUsage from OpenAI API response
+   */
+  static fromOpenAI(response: unknown): TokenUsage {
+    const usage =
+      (response as { usage?: { prompt_tokens?: number; completion_tokens?: number } }).usage || {};
+    return new TokenUsage(usage.prompt_tokens || 0, usage.completion_tokens || 0);
+  }
+
+  /**
    * Calculate cost based on per-token pricing
    * @param promptPrice - Price per 1K prompt tokens
    * @param completionPrice - Price per 1K completion tokens
