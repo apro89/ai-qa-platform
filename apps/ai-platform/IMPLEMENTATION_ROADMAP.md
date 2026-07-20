@@ -642,8 +642,9 @@ sequenceDiagram
   participant Discovery
   participant Screenplay
   participant Planner
-  participant Patcher
+  participant Generator
   participant Validator
+  participant QualityGate
   participant GitOps
   participant GitHub
 
@@ -652,12 +653,19 @@ sequenceDiagram
   API->>Screenplay: Resolve reusable artifacts
   API->>Planner: Build generation plan
   Planner-->>API: Planned change set
-  API->>Patcher: Apply safe changes
-  API->>Validator: Run lint/build/tests
-  Validator-->>API: Validation report
-  API->>GitOps: Branch + commit + push
-  GitOps->>GitHub: Create PR
-  GitHub-->>User: PR URL and summary
+  API->>Generator: Generate files via LLM
+  Generator-->>API: GenerationResult
+  API->>QualityGate: Validate quality
+  QualityGate-->>API: ValidatedGeneration
+  alt All files valid
+    API->>Validator: Run lint/build/tests
+    Validator-->>API: Validation report
+    API->>GitOps: Branch + commit + push
+    GitOps->>GitHub: Create PR
+    GitHub-->>User: PR URL and summary
+  else Quality gate failed
+    API-->>User: Validation report with issues
+  end
 ```
 
 ---
@@ -670,6 +678,7 @@ sequenceDiagram
 - Phase 4 safely materializes those plans into source changes with quality gates.
 - Phase 5 operationalizes validated changes via GitHub pull requests.
 - Phase 6 closes the loop with governance, observability, and continuous learning.
+- Phase 7 implements comprehensive validation between LLM generation and filesystem modification.
 
 ---
 
@@ -694,6 +703,144 @@ Phase 5 complete. Outcome: full branch-to-PR automation.
 ### Milestone E
 
 Phase 6 complete. Outcome: governed and measurable production operation.
+
+### Milestone F
+
+Phase 7 complete. Outcome: comprehensive validation quality gate between generation and filesystem.
+
+---
+
+## Phase 7 - Validation & Quality Engine
+
+### Goal
+
+Implement a comprehensive validation and quality gate layer between AI generation and filesystem modifications.
+
+### Why it exists
+
+In enterprise systems, AI-generated code must pass through multiple quality checks before it can be written to disk. This layer acts as the gatekeeper, ensuring only safe, consistent, and high-quality code reaches the project.
+
+### Deliverables
+
+- Validation & Quality Engine orchestration service
+- 8 specialized validators (naming, imports, Screenplay pattern, TypeScript, code quality, duplicates, conflicts, paths)
+- Validation pipeline with extensible architecture
+- Quality scoring system (0-100)
+- Detailed validation reports with recommendations
+- Comprehensive test suite
+
+### Components
+
+- `ValidationEngine` (orchestrator)
+- `ValidationPipeline` (executor)
+- `NamingConventionValidator`
+- `ImportValidator`
+- `ScreenplayValidator`
+- `TypeScriptValidator`
+- `CodeQualityValidator`
+- `DuplicateDetector`
+- `ProjectConflictDetector`
+- `FilePathValidator`
+
+### Dependencies
+
+- Phase 6: GenerationResult from LLM processing
+- Phase 1-5: Project context (existing files, artifacts, structure)
+
+### Risks
+
+- False positives in duplicate detection (similarly-named items)
+- Over-strictness reducing generation success rate
+- Performance impact for large file batches
+
+### Acceptance Criteria
+
+- All generated files are validated before approval
+- Quality score accurately reflects code safety and compliance
+- Detailed violation reports guide developers to fixes
+- False positive rate < 5% for duplicate detection
+- Validation completes in < 1s per file
+- All validators can be independently disabled/reconfigured
+
+### Suggested Folder Structure
+
+- `validation/models/` - ValidationResult, ValidatedGeneration, ValidationRule
+- `validation/validators/` - Individual validator implementations
+- `validation/services/` - ValidationEngine, ValidationPipeline
+- `validation/errors/` - Custom validation errors
+- `validation/__tests__/` - Unit tests
+
+### Key Classes
+
+- `ValidationEngine` - Main orchestrator
+- `ValidationPipeline` - Sequential validator executor
+- `ValidatedGeneration` - Output model (approved/rejected files)
+- `ValidationRule` - Individual violation record
+- `ValidationSeverity` - Error/Warning/Info levels
+
+### Interfaces
+
+- `Validator` - Interface for all validators
+- `ValidatedGeneration` - Output structure
+- `ValidationResult` - Per-file result
+
+### Data Models
+
+- `ValidatedGeneration` - Result with approvedFiles, rejectedFiles, violations
+- `ValidationReport` - Grouped violations, recommendations, scores
+- `ValidationRule` - Individual violation with metadata
+- `ValidationSeverity` - Enum (error, warning, info)
+
+### Architecture Diagram
+
+```mermaid
+flowchart LR
+  A[GenerationResult] --> B[ValidationEngine]
+  B --> C[ValidationPipeline]
+  C --> D[FilePathValidator]
+  C --> E[NamingConventionValidator]
+  C --> F[ImportValidator]
+  C --> G[ScreenplayValidator]
+  C --> H[TypeScriptValidator]
+  C --> I[CodeQualityValidator]
+  B --> J[DuplicateDetector]
+  B --> K[ProjectConflictDetector]
+  L[Project Context] --> J
+  L --> K
+  C --> M[ValidationResult per file]
+  M --> N[ValidatedGeneration]
+```
+
+### Quality Scoring Breakdown
+
+- Naming Conventions: 25 points
+- Architecture/Screenplay: 25 points
+- Imports: 20 points
+- Code Structure: 20 points
+- Safety/Security: 10 points
+
+### Data Flow
+
+GenerationResult -> ValidationEngine -> per-file validation -> aggregate scoring -> ValidatedGeneration
+
+### Request Flow
+
+`validate(generationResult)` -> execute validators -> score per file -> determine readyToWrite -> return ValidatedGeneration
+
+### Logging
+
+- Validation started
+- Each validator execution
+- Violations found
+- Quality score calculated
+- Execution time
+- Ready/not-ready decision
+
+---
+
+## Milestone F
+
+Phase 7 complete. Outcome: comprehensive validation and quality gate between generation and filesystem.
 
 ---
 

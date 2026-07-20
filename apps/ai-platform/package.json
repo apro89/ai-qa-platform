@@ -8,7 +8,8 @@
     "lint": "eslint . --ext .js,.ts,.tsx --no-error-on-unmatched-pattern",
     "phase3:demo": "tsx phase3-demo.ts",
     "phase4:demo": "tsx phase4-demo.ts",
-    "phase5:demo": "tsx phase5-demo.ts"
+    "phase5:demo": "tsx phase5-demo.ts",
+    "phase7:demo": "tsx phase7-demo.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
