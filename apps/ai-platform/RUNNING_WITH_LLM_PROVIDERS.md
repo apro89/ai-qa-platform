@@ -7,12 +7,14 @@ This guide explains how to run the Phase 5 demo with different LLM providers: **
 ### Option A: Ollama (Recommended for Testing - Free & Local)
 
 **1. Install Ollama**
+
 - Download from: https://ollama.ai
 - Install and run the application
 
 **2. Start Ollama Server**
 
 In a terminal, start Ollama:
+
 ```bash
 ollama serve
 ```
@@ -94,6 +96,7 @@ OLLAMA_BASE_URL=http://localhost:11434
 ```
 
 **Available Ollama Models:**
+
 ```env
 OLLAMA_MODEL=mistral          # Fast & recommended
 OLLAMA_MODEL=llama2           # Meta's LLaMA 2
@@ -114,6 +117,7 @@ OPENAI_MODEL=gpt-4o
 ```
 
 **Available OpenAI Models:**
+
 ```env
 OPENAI_MODEL=gpt-4o           # Latest & most capable
 OPENAI_MODEL=gpt-4            # Previous version
@@ -125,11 +129,13 @@ OPENAI_MODEL=gpt-3.5-turbo    # Faster & cheaper (if available)
 **Option 1: Using a Package (Recommended)**
 
 Install `dotenv`:
+
 ```bash
 npm install dotenv
 ```
 
 Then in `phase5-demo.ts`, add at the very top:
+
 ```typescript
 import 'dotenv/config';
 ```
@@ -137,6 +143,7 @@ import 'dotenv/config';
 **Option 2: Manual Load**
 
 Before running the demo:
+
 ```bash
 # macOS/Linux
 source .env
@@ -228,6 +235,7 @@ The demo will automatically load settings from `.env`.
 ### Without .env File (Manual)
 
 **Ollama:**
+
 ```bash
 cd apps/ai-platform
 export LLM_PROVIDER=ollama
@@ -236,6 +244,7 @@ npm run phase5:demo
 ```
 
 **OpenAI:**
+
 ```bash
 cd apps/ai-platform
 export OPENAI_API_KEY=sk-your-key
@@ -252,6 +261,7 @@ npm run phase5:demo
 **Error:** `Cannot connect to Ollama at http://localhost:11434`
 
 **Solution:**
+
 1. Make sure Ollama is running: `ollama serve`
 2. Check the URL is correct: `http://localhost:11434`
 3. Verify the model is pulled: `ollama list`
@@ -261,6 +271,7 @@ npm run phase5:demo
 **Error:** `Authentication failed: Incorrect API key provided`
 
 **Solution:**
+
 1. Verify your API key is correct: https://platform.openai.com/account/api-keys
 2. Check for extra spaces in your key
 3. Ensure billing is enabled on your account
@@ -270,6 +281,7 @@ npm run phase5:demo
 **Error:** `You exceeded your current quota`
 
 **Solution:**
+
 - Check your OpenAI billing: https://platform.openai.com/account/billing/overview
 - Add a payment method if needed
 - Consider using Ollama instead (free, local)
@@ -328,28 +340,33 @@ npm run phase5:demo
 ## Environment Variable Details
 
 ### LLM_PROVIDER
+
 - **Type:** `string`
 - **Values:** `ollama` or `openai`
 - **Default:** `openai`
 - **Description:** Which LLM provider to use
 
 ### OLLAMA_MODEL
+
 - **Type:** `string`
 - **Examples:** `mistral`, `llama2`, `neural-chat`, `dolphin-mixtral`, `orca-mini`
 - **Default:** `mistral`
 - **Description:** Which Ollama model to use (must be pulled first)
 
 ### OLLAMA_BASE_URL
+
 - **Type:** `string`
 - **Default:** `http://localhost:11434`
 - **Description:** URL where Ollama server is running
 
 ### OPENAI_API_KEY
+
 - **Type:** `string` (secret)
 - **Description:** Your OpenAI API key (starts with `sk-`)
 - **⚠️ Important:** Never commit this to version control
 
 ### OPENAI_MODEL
+
 - **Type:** `string`
 - **Examples:** `gpt-4o`, `gpt-4`, `gpt-3.5-turbo`
 - **Default:** `gpt-4o`
@@ -368,6 +385,7 @@ npm run phase5:demo
    - Add `.env` to `.gitignore`
 
 3. **Run the Demo:**
+
    ```bash
    cd apps/ai-platform
    npm run phase5:demo

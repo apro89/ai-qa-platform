@@ -290,11 +290,13 @@ Phase 2:
 The Phase 5 LLM Provider Layer implements a provider-agnostic interface for communicating with Large Language Models.
 
 **Supported Providers:**
+
 - ✅ **OpenAI** - Cloud-based (requires API key)
 - ✅ **Ollama** - Local, free, no API key required
 - 🔮 Claude, Gemini, Azure OpenAI (future)
 
 **Features:**
+
 - Provider abstraction with pluggable architecture
 - Automatic retry with exponential backoff
 - Rate limiting (requests & tokens per minute)
@@ -307,6 +309,7 @@ The Phase 5 LLM Provider Layer implements a provider-agnostic interface for comm
 See [RUNNING_WITH_LLM_PROVIDERS.md](./RUNNING_WITH_LLM_PROVIDERS.md) for complete setup instructions.
 
 **Using Ollama (Free & Local):**
+
 ```bash
 # Terminal 1: Start Ollama
 ollama serve
@@ -318,12 +321,14 @@ npm run phase5:demo
 ```
 
 **Using OpenAI (Requires API Key):**
+
 ```bash
 export OPENAI_API_KEY=sk-your-key
 npm run phase5:demo
 ```
 
 **Files:**
+
 - `llm/config/LLMConfig.ts` - Configuration management
 - `llm/interfaces/ILLMProvider.ts` - Provider interface
 - `llm/providers/OpenAIProvider.ts` - OpenAI implementation
@@ -334,6 +339,7 @@ npm run phase5:demo
 - `llm/services/RateLimiter.ts` - Rate limiting
 
 **Documentation:**
+
 - [RUNNING_WITH_LLM_PROVIDERS.md](./RUNNING_WITH_LLM_PROVIDERS.md) - How to run with different providers
 - [docs/ai-platform/PHASE_5_LLM_PROVIDER_LAYER.md](../../docs/ai-platform/PHASE_5_LLM_PROVIDER_LAYER.md) - Architecture details
 - [llm/README.md](./llm/README.md) - API reference

@@ -1,7 +1,7 @@
 /**
  * Ollama LLM Provider
  * Connects to local Ollama instance (https://ollama.ai)
- * 
+ *
  * Setup:
  * 1. Install Ollama: https://ollama.ai
  * 2. Run a model: ollama run mistral (or llama2, neural-chat, etc.)
@@ -72,10 +72,7 @@ export class OllamaProvider implements ILLMProvider {
       });
 
       if (!response.ok) {
-        throw new NetworkError(
-          `Health check failed: ${response.statusText}`,
-          'ollama',
-        );
+        throw new NetworkError(`Health check failed: ${response.statusText}`, 'ollama');
       }
 
       this.logger.debug('Ollama health check passed', {});
@@ -129,9 +126,7 @@ export class OllamaProvider implements ILLMProvider {
       const data = (await response.json()) as OllamaResponse;
 
       // Estimate tokens (Ollama doesn't provide exact counts in response)
-      const promptTokens = this.estimateTokens(
-        messages.map((m) => m.content).join(' '),
-      );
+      const promptTokens = this.estimateTokens(messages.map((m) => m.content).join(' '));
       const completionTokens = this.estimateTokens(data.message.content);
 
       const usage = new TokenUsage(promptTokens, completionTokens);

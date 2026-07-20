@@ -4,7 +4,7 @@
  * This demo shows how the LLM Provider Layer works with the PromptRenderer (Phase 4)
  * to create a complete prompt generation and LLM execution pipeline.
  *
- * Run with OpenAI: 
+ * Run with OpenAI:
  *   export OPENAI_API_KEY=sk-your-key
  *   pnpm exec ts-node apps/ai-platform/phase5-demo.ts
  *
@@ -30,27 +30,28 @@ async function demonstrateLLMLayer(): Promise<void> {
     // 1. Create LLM configuration
     logger.info('\n1. Creating LLM Configuration');
     logger.info('Selected provider:', { provider: selectedProvider });
-    
-    const config = selectedProvider === 'ollama'
-      ? new LLMConfig({
-          provider: 'ollama',
-          apiKey: 'not-required-for-ollama',
-          model: process.env.OLLAMA_MODEL || 'mistral',
-          baseUrl: process.env.OLLAMA_BASE_URL || 'http://localhost:11434',
-          temperature: 0.7,
-          maxTokens: 1024,
-          timeout: 60000,
-        })
-      : new LLMConfig({
-          provider: 'openai',
-          apiKey: process.env.OPENAI_API_KEY || 'sk-demo',
-          model: process.env.OPENAI_MODEL || 'gpt-4o',
-          temperature: 0.7,
-          maxTokens: 1024,
-          timeout: 30000,
-          retryCount: 2,
-          maxRequestsPerMinute: 60,
-        });
+
+    const config =
+      selectedProvider === 'ollama'
+        ? new LLMConfig({
+            provider: 'ollama',
+            apiKey: 'not-required-for-ollama',
+            model: process.env.OLLAMA_MODEL || 'mistral',
+            baseUrl: process.env.OLLAMA_BASE_URL || 'http://localhost:11434',
+            temperature: 0.7,
+            maxTokens: 1024,
+            timeout: 60000,
+          })
+        : new LLMConfig({
+            provider: 'openai',
+            apiKey: process.env.OPENAI_API_KEY || 'sk-demo',
+            model: process.env.OPENAI_MODEL || 'gpt-4o',
+            temperature: 0.7,
+            maxTokens: 1024,
+            timeout: 30000,
+            retryCount: 2,
+            maxRequestsPerMinute: 60,
+          });
 
     logger.info('Configuration loaded:', { config: config.toSafeJSON() });
 
@@ -98,7 +99,7 @@ Use the Screenplay Pattern with:
     logger.info('Current rate limiter stats:', { stats: service.getRateLimiterStats() });
 
     const shouldSkipCall = selectedProvider === 'openai' && config.apiKey === 'sk-demo';
-    
+
     if (!shouldSkipCall) {
       try {
         logger.info('Making LLM request...');
@@ -124,7 +125,9 @@ Use the Screenplay Pattern with:
           logger.info('Make sure Ollama is running:', { command: 'ollama serve' });
           logger.info('Then run a model:', { command: 'ollama run mistral' });
         } else {
-          logger.info('Make sure you have a valid OpenAI API key', { hint: 'export OPENAI_API_KEY=sk-...' });
+          logger.info('Make sure you have a valid OpenAI API key', {
+            hint: 'export OPENAI_API_KEY=sk-...',
+          });
         }
         if (error instanceof Error) {
           logger.info('Error type:', { type: error.constructor.name });
